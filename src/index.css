@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
+@tailwind base;
+
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
+
+  body {
+    font-family: "Poppins", system-ui, sans-serif;
+    background: #F6F8FF; 
+  }
+
+}
+
+body{
+  -ms-overflow-style: none;  
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar { 
+  display: none; 
+} 
+
+@tailwind components;
+@tailwind utilities;
