@@ -1,6 +1,7 @@
 <template>
     <div class="container mx-auto"> 
         <RequestsTable/>
+        <RouterView />
     </div>
 </template>
 
@@ -8,6 +9,5 @@
 import RequestsTable from '../components/RequestsTable.vue';
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 </style>

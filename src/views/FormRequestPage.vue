@@ -8,6 +8,5 @@
 import RequestForm from '../components/RequestForm.vue';
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 </style>

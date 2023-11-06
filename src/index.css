@@ -14,10 +14,10 @@
     font-family: "Poppins", system-ui, sans-serif;
     background: #F6F8FF; 
   }
-
 }
 
 body{
+  overflow: auto;
   -ms-overflow-style: none;  
   scrollbar-width: none;
 }

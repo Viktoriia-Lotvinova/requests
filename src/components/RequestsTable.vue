@@ -28,7 +28,6 @@
 <script setup>
 import Request from './Request.vue';
 import { useRequestStore } from '@/stores/request'
-
 const store = useRequestStore();
 </script>
 

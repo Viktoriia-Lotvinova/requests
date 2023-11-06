@@ -15,16 +15,21 @@ const router = createRouter({
     {
       path: '/requests',
       name: 'requests',
-      component: RequestListPage
+      component: RequestListPage,
+      children: [
+        {
+          path: ':id',
+          component: FormRequestPage,
+          name: 'editrequest',
+          meta: {
+            showModal: true
+          }
+        }
+      ]
     },
     {
       path: '/newrequest',
       name: 'newrequest',
-      component: FormRequestPage,
-    },
-    {
-      path: '/request/:id',
-      name: 'editrequest',
       component: FormRequestPage,
     },
   ]

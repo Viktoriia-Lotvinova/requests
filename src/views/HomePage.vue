@@ -5,7 +5,7 @@
                 <h2>Make your shipping Easy, Fast and Safe</h2>
                 <p class="mt-11">you take care of doing what you like the most,
                     <br>
-                 we make your orders arrive on time
+                we make your orders arrive on time
                 </p>
             </div>
             <img src="../assets/delivery_boy.png" alt="" class="absolute">
@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 </script>
 
 <style scoped>
