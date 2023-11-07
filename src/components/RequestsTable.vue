@@ -27,12 +27,12 @@
 
 <script setup>
 import Request from './Request.vue';
-import { useRequestStore } from '@/stores/request'
+import { useRequestStore } from '@/stores/request';
 const store = useRequestStore();
 </script>
 
 <style scoped>
-h2{
+h2 {
     color: #172F53;
     font-size:60px;
     font-weight: 500;

@@ -22,23 +22,22 @@
 </template>
 
 <script setup>
-
 </script>
 
 <style scoped>
-h1{
+h1 {
   color: #172F53; 
   font-size: 32px;
   font-weight: 700; 
 }
 
-a{
+a {
   color: #172F53;
   font-size: 20px;
   font-weight: 400; 
 }
 
-button{
+button {
   border-radius: 5px;
   padding: 5px 20px;
   border: 1px solid #000; 
@@ -48,7 +47,7 @@ button{
   transition: all .5s ease;
 }
 
-button:hover{
+button:hover {
   background: #21D8E3; 
   color: #fff;
   border-color:#21D8E3 ;

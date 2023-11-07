@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
-import HomePage from '../views/HomePage.vue'
-import RequestListPage from '../views/RequestListPage.vue'
-import FormRequestPage from '../views/FormRequestPage.vue'
+import HomePage from '../views/HomePage.vue';
+import RequestListPage from '../views/RequestListPage.vue';
+import FormRequestPage from '../views/FormRequestPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

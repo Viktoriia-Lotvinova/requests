@@ -17,20 +17,20 @@
 </script>
 
 <style scoped>
-h2{
+h2 {
     color: #172F53;
     font-size: 72px;
     font-weight: 700;
 }
 
-p{
+p {
     color: #7D7D7D;
     font-size: 30px;
     font-weight: 400;
     line-height: normal; 
 }
 
-img{
+img {
     max-height: 590px;
     right: 0;
     z-index: -1;

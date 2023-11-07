@@ -102,7 +102,6 @@ const router = useRouter();
 const cityFrom = ref('');
 const cityTo = ref('');
 const parcelType = ref('');
-const date = ref('');
 const parcelDescription = ref('');
 const isNonEdit = ref(router.currentRoute.value.path == '/newrequest' ? true : false);
 const buttonText = ref(isNonEdit.value ? 'Create a request' : 'Edit request');
@@ -124,13 +123,8 @@ onMounted( () => {
     }
 })
 
-function validation(date){
-    if( !cityFrom.value || !cityTo.value || !parcelType.value || !date.value){
-        isValid.value = false;
-        
-    } else{
-        isValid.value = true;
-    }
+function validation(date) {
+    isValid.value = !cityFrom.value || !cityTo.value || !parcelType.value || !date.value  ? false: true; 
 }
 
 function submit() {
@@ -141,33 +135,28 @@ function submit() {
         return;
     }
 
-    if(isNonEdit.value) {
-        let request = {
-            id: Date.now() + Math.random(),
-            cityFrom: cityFrom.value,
-            cityTo: cityTo.value,
-            parcelType: parcelType.value,
-            date: date.value,
-            parcelDescription: parcelDescription.value
-        }
+    let request = {
+        cityFrom: cityFrom.value,
+        cityTo: cityTo.value,
+        parcelType: parcelType.value,
+        date: date.value,
+        parcelDescription: parcelDescription.value
+    }
+
+    if (isNonEdit.value) {
+        request.id = Date.now() + Math.random();
         store.createRequest(request);
     } else {
-        let updatedRequest = {
-            id: requestId.value,
-            cityFrom: cityFrom.value,
-            cityTo: cityTo.value,
-            parcelType: parcelType.value,
-            date: date.value,
-            parcelDescription: parcelDescription.value
-        }
-        store.editRequest(updatedRequest);
+        request.id = requestId.value;
+        store.editRequest(request);
     }
+    
     router.push({ name: 'requests' });
 }
 
 </script>
 <style scoped>
-.invalid{
+.invalid {
     border: 1px solid red;
     background-color: #fee2e2;
 }
