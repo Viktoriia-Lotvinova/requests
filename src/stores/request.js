@@ -12,10 +12,10 @@ export const useRequestStore = defineStore('request', {
     createRequest(request) {
       this.requests.push(request);
     },
-    deleteRequest(id){
+    deleteRequest(id) {
       this.requests = this.requests.filter((request) => request.id !== id);
     },
-    editRequest(updatedRequest){
+    editRequest(updatedRequest) {
       this.requests = this.requests.map(request => {
         if (request.id == updatedRequest.id) {
           return updatedRequest; 

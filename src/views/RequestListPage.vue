@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto"> 
         <RequestsTable/>
-        <RouterView />
+        <RouterView/>
     </div>
 </template>
 

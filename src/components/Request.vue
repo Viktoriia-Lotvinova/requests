@@ -40,23 +40,24 @@ import { defineProps } from 'vue';
 import { useRequestStore } from '@/stores/request';
 
 const props = defineProps({
-  request: Object,
+  request: Object
 });
 
 const editRequestLink = computed(() => ({
   name: 'editrequest',
-  params: { id: props.request.id },
+  params: { id: props.request.id }
 })); 
 
 const store = useRequestStore();
 
 function deleteRequest(id) {
-    let confirmation = confirm('Do you really want to delete this request?') 
-    if(confirmation){
-        store.deleteRequest(id);
-    }else{
+    let confirmation = confirm('Do you really want to delete this request?');
+
+    if (!confirmation) {
         return;
     }
+
+    store.deleteRequest(id);
 }
 </script>
 

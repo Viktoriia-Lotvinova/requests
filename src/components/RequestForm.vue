@@ -1,7 +1,7 @@
 <template>
-    <div :class="{invalid: !isValid}" class="w-3/6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 block rounded-lg bg-white p-6 dark:bg-neutral-700">
+    <div :class="{invalid: !isValid}" class="w-3/6 mt-14 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 block rounded-lg bg-white p-6 dark:bg-neutral-700">
         <router-link to="/requests">
-            <button v-if="buttonText == 'Edit request'" type="button" class="ml-auto bg-white rounded-md p-2 block items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+            <button v-if="!isNonEdit" type="button" class="ml-auto bg-white rounded-md p-2 block items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span class="sr-only">Close menu</span>
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -65,7 +65,7 @@
                     id="datepickerel" 
                     type="text"
                     class="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Discpatch date">
+                    placeholder="Dispatch date">
             </div>
             <!-- date -->
             <!-- textarea -->
@@ -89,127 +89,86 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import { useRequestStore } from '@/stores/request';
 import { useRouter } from 'vue-router';
 
 import Datepicker from 'flowbite-datepicker/Datepicker';
 
-export default {
-    mounted() {
-        const datepickerEl = document.getElementById('datepickerel');
-        new Datepicker(datepickerEl); 
-    },
+const store = useRequestStore();
+const router = useRouter();
 
-    setup() {
-    const store = useRequestStore();
-    const router = useRouter();
-   
+const cityFrom = ref('');
+const cityTo = ref('');
+const parcelType = ref('');
+const date = ref('');
+const parcelDescription = ref('');
+const isNonEdit = ref(router.currentRoute.value.path == '/newrequest' ? true : false);
+const buttonText = ref(isNonEdit.value ? 'Create a request' : 'Edit request');
+const isValid = ref(true);
 
-    let cityFrom = ref('');
-    let cityTo = ref('');
-    let parcelType = ref('');
-    let date = ref('');
-    let parcelDescription = ref('');
-    
-    let buttonText = ref('')
-    let requestId = ref('')
+const requestId = ref(router.currentRoute.value.params.id || '');
+const response = store.getRequestById(requestId.value);
+const request = response ? JSON.parse(JSON.stringify(response)) : '';
 
-    let isValid = ref(true);
-
-  
-    if(router.currentRoute.value.path == '/newrequest'){
-       buttonText = 'Create a request'
-    } else{
-        buttonText = 'Edit request'
-
-        const id = router.currentRoute.value.params.id;
-        requestId.value = id;
-        let response = store.getRequestById(id);
-        let request = JSON.parse(JSON.stringify(response));
-
+onMounted( () => {
+    const datepickerEl = document.getElementById('datepickerel');
+    new Datepicker(datepickerEl); 
+    if (!isNonEdit.value && request) {
+        datepickerEl.value = request.date;
         cityFrom.value = request.cityFrom;
         cityTo.value = request.cityTo;
         parcelType.value = request.parcelType;
         parcelDescription.value = request.parcelDescription;
-
-
-        onMounted( () => {
-        let date = document.getElementById('datepickerel');
-        date.value = request.date;
-        })
     }
+})
 
-    function validation(date){
-        if( !cityFrom.value || !cityTo.value || !parcelType.value || !date.value){
-            isValid.value = false;
-            
-        } else{
-            isValid.value = true;
-        }
+function validation(date){
+    if( !cityFrom.value || !cityTo.value || !parcelType.value || !date.value){
+        isValid.value = false;
+        
+    } else{
+        isValid.value = true;
     }
+}
 
-   
-    function submit() {
-        let date = document.getElementById('datepickerel');
-        validation(date);
+function submit() {
+    let date = document.getElementById('datepickerel');
+    validation(date);
 
     if (!isValid.value) {
         return;
     }
 
-    if(buttonText =='Create a request'){
+    if(isNonEdit.value) {
         let request = {
-        id: Date.now() + Math.random(),
-        cityFrom: cityFrom.value,
-        cityTo: cityTo.value,
-        parcelType: parcelType.value,
-        date: date.value,
-        parcelDescription: parcelDescription.value
-      }
+            id: Date.now() + Math.random(),
+            cityFrom: cityFrom.value,
+            cityTo: cityTo.value,
+            parcelType: parcelType.value,
+            date: date.value,
+            parcelDescription: parcelDescription.value
+        }
         store.createRequest(request);
-      } else{
+    } else {
         let updatedRequest = {
-        id: requestId.value,
-        cityFrom: cityFrom.value,
-        cityTo: cityTo.value,
-        parcelType: parcelType.value,
-        date: date.value,
-        parcelDescription: parcelDescription.value
-      }
+            id: requestId.value,
+            cityFrom: cityFrom.value,
+            cityTo: cityTo.value,
+            parcelType: parcelType.value,
+            date: date.value,
+            parcelDescription: parcelDescription.value
+        }
         store.editRequest(updatedRequest);
-      }
-      router.push({ name: 'requests' });
     }
+    router.push({ name: 'requests' });
+}
 
-    return {
-      cityFrom,
-      cityTo,
-      parcelType,
-      date,
-      parcelDescription,
-      submit,
-      buttonText,
-      validation,
-      isValid
-    };
-
-    
-  },
-};
 </script>
-
-
-
 <style scoped>
 .invalid{
     border: 1px solid red;
     background-color: #fee2e2;
 }
-
-.bg-darker{
-    background: #7e7e7e !important;
-}
-
 </style>
